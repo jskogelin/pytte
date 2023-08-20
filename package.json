@@ -2,8 +2,8 @@
   "name": "pytte",
   "version": "1.0.0",
   "description": "A tiny test runner",
-  "main": "build/index.js",
   "module": true,
+  "bin": "build/index.js",
   "scripts": {
     "dev": "ts-node-dev ./index.ts",
     "build": "tsc"

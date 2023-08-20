@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { parseArgs } from "node:util";
 
 import path from "path";
@@ -26,9 +28,15 @@ async function main() {
   suite.logStart();
 
   for (const filename of suite.filelist) {
-    const module = new Module(__dirname, dir, filename);
-    module.logStart();
+    const module = new Module(dir, filename);
+
     await module.setup();
+
+    if (!module.loaded) {
+      continue;
+    }
+
+    module.logStart();
     module.run();
 
     suite.report(module);

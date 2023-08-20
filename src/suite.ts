@@ -14,7 +14,12 @@ export default class Suite {
 
   async scan() {
     if (this.dir[this.dir.length - 1] === "/") {
-      const files = await fsPromises.readdir(this.dir);
+      let files = await fsPromises.readdir(this.dir);
+
+      files = files.filter((file) => {
+        return file.endsWith(".ts") || file.endsWith(".js");
+      });
+
       this.filelist.push(...files);
     } else {
       this.filelist.push(this.dir);

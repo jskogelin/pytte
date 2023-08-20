@@ -8,22 +8,30 @@ export default class Module {
   path: string;
   tests: Record<string, Function> | Function;
   errors: AssertionError[];
+  loaded: boolean;
 
-  constructor(dirname: string, targetDir: string, filename: string) {
+  constructor(targetDir: string, filename: string) {
     this.filename = filename;
-    this.path = path.resolve(dirname, targetDir.replace("/", ""), filename);
+    this.path = path.resolve(targetDir.replace("/", ""), filename);
     this.tests = {};
     this.errors = [];
+    this.loaded = false;
   }
 
   async setup() {
-    const module = await import(this.path);
+    let module;
+    try {
+      module = await import(this.path);
+    } catch (err) {
+      return;
+    }
 
-    if (!module.tests) {
+    if (!module?.tests) {
       return;
     }
 
     this.tests = module.tests;
+    this.loaded = true;
   }
 
   logStart() {
