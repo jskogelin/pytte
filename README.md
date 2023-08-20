@@ -1,4 +1,4 @@
-## 🧚 TINY TEST RUNNER 🧚
+## 🧚 PYTTE TINY TEST RUNNER 🧚
 
 ```bash
 npm i --save-dev pytte
@@ -26,4 +26,10 @@ export function tests(it, assert) {
     assert(addNumbers(1, 2) === 3);
   });
 }
+```
+
+Then use it with
+
+```bash
+pytte -d path/to/your/sourcefiles/
 ```
