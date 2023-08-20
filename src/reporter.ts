@@ -4,8 +4,8 @@ function createReport(prefix: string, suffix: string, color: string) {
   };
 }
 
-const success = createReport("✅", "passed", "32m");
-const fail = createReport("🚨", "failed", "31m");
+const success = createReport("✅", "", "32m");
+const fail = createReport("🚨", "", "31m");
 
 export default function report(test: string, result: Boolean | Error) {
   if (result instanceof Error) {
