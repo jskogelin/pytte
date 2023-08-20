@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -31,9 +32,12 @@ function main() {
         yield suite.scan();
         suite.logStart();
         for (const filename of suite.filelist) {
-            const module = new module_1.default(__dirname, dir, filename);
-            module.logStart();
+            const module = new module_1.default(dir, filename);
             yield module.setup();
+            if (!module.loaded) {
+                continue;
+            }
+            module.logStart();
             module.run();
             suite.report(module);
         }

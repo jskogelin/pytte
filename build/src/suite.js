@@ -42,7 +42,10 @@ class Suite {
     scan() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.dir[this.dir.length - 1] === "/") {
-                const files = yield fsPromises.readdir(this.dir);
+                let files = yield fsPromises.readdir(this.dir);
+                files = files.filter((file) => {
+                    return file.endsWith(".ts") || file.endsWith(".js");
+                });
                 this.filelist.push(...files);
             }
             else {

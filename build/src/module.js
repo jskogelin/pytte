@@ -45,21 +45,29 @@ const path_1 = __importDefault(require("path"));
 const it_1 = __importStar(require("./it"));
 const assert_1 = __importDefault(require("./assert"));
 class Module {
-    constructor(dirname, targetDir, filename) {
+    constructor(targetDir, filename) {
         _Module_instances.add(this);
         this.filename = filename;
-        this.path = path_1.default.resolve(dirname, targetDir.replace("/", ""), filename);
+        this.path = path_1.default.resolve(targetDir.replace("/", ""), filename);
         this.tests = {};
         this.errors = [];
+        this.loaded = false;
     }
     setup() {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
-            const module = yield (_a = this.path, Promise.resolve().then(() => __importStar(require(_a))));
-            if (!module.tests) {
+            let module;
+            try {
+                module = yield (_a = this.path, Promise.resolve().then(() => __importStar(require(_a))));
+            }
+            catch (err) {
+                return;
+            }
+            if (!(module === null || module === void 0 ? void 0 : module.tests)) {
                 return;
             }
             this.tests = module.tests;
+            this.loaded = true;
         });
     }
     logStart() {
